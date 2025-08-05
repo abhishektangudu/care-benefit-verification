@@ -4,27 +4,57 @@
 
 This Salesforce Health Cloud project implements a care benefit verification system that handles the care benefit verification request initiation to care benefit verification result processing. The solution is implemented using health cloud objects that are part of the core salesforce platform.
 
-## Repository Structure
+## Architecture Overview
 
 ```
-care-benefit-verification/
-├── force-app/main/default/
-│   ├── classes/                    # Apex classes
-│   ├── objects/                    # Custom objects
-│   ├── flows/                      # Salesforce Flows
-│   ├── permissionsets/             # Permission sets
-│   └── externalClientApps/         # External Client apps
-├── config/                         # Project configuration
-├── scripts/                        # Utility scripts
-├── API_DOCUMENTATION.md           # Complete API documentation
-├── Benefit Verification API.postman_collection.json  # Postman collection
-├── INSTALLATION_GUIDE.md          # Detailed installation instructions
-└── README.md                      # This file
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Flow Trigger  │───▶│  Service Layer   │───▶│  Queueable      │
+│   (UI/Process)  │    │  (Apex Classes)  │    │  (Async)        │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+                                │                        │
+                                ▼                        ▼
+                       ┌──────────────────┐    ┌─────────────────┐
+                       │  Case Creation   │    │  External API   │
+                       │  (Error Mgmt)    │    │  Callouts       │
+                       └──────────────────┘    └─────────────────┘
+                                                        │
+                                                        ▼
+                                               ┌─────────────────┐
+                                               │  REST API       │
+                                               │  (Results)      │
+                                               └─────────────────┘
 ```
+
+## Business Requirements
+
+### Core Requirements
+- **Automated Processing**: Handle benefit verification requests without manual intervention
+- **Real-time Integration**: Connect with external insurance provider APIs
+- **Error Management**: Create cases for failed verifications with proper routing
+- **Scalability**: Process high volumes of requests asynchronously
+- **Audit Trail**: Maintain complete records of all verification attempts
+
+### Technical Requirements
+- **Salesforce Health Cloud**: Leverage existing Health Cloud objects
+- **Asynchronous Processing**: Use Queueable for API callouts
+- **REST API**: Provide endpoint for receiving verification results
+- **Assignment Rules**: Automatically route cases based on record type
+- **Security**: Implement proper sharing and field-level security
+
+## Quick Start
+
+For detailed installation instructions, see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md).
+
+### Installation Steps
+1. Deploy the package to your Salesforce org
+2. Assign the permission set to users
+3. Configure named credentials
+4. Set up assignment rules and queues
+5. Configure external client app for API access
 
 ## Key Components
 
-### 1. Service Classes
+### Service Classes
 
 #### `BenefitsVerificationService`
 - **Purpose**: Service for benefit verification request workflow
@@ -32,43 +62,9 @@ care-benefit-verification/
 #### `CareBenefitVerificationResultsAPI`
 - **Purpose**: REST API endpoint for receiving verification results from the benefits provider.
 
-### 2. Mock and Testing Classes
+### Data Models
 
-#### `MockHttpResponseGenerator`
-- **Purpose**: HTTP callout mock for testing
-
-#### `BVMockDataGenerator`
-- **Purpose**: Test data generation utility
-
-## Configuration
-
-### Named Credentials
-
-Set up a Named Credential called `Benefit_Verification_API` with:
-- **URL**: Your external API endpoint
-- **Identity Type**: Named Principal
-- **Authentication Protocol**: OAuth 2.0 or Username/Password
-- **Generate Authorization Header**: Enabled
-
-### Permission Sets
-
-The system includes a permission set `Benefit_Verification_API_Permissions` that provides:
-- Access to custom objects
-- API permissions
-- Field-level security settings
-- Custom Lightning App
-
-### External Client Apps
-
-An external client app `Benefit_Verification_Connected_App` is configured for:
-- External API authentication
-- OAuth 2.0 integration
-- Secure credential management
-- Package-compatible configuration
-
-### 3. Data Models
-
-#### Health Cloud Data Model
+#### Health Cloud Objects
 - **CareBenefitVerifyRequest**: Main request record for benefit verification
 - **CoverageBenefit**: Main benefit record (Health Cloud standard)
 - **CoverageBenefitItem**: Individual benefit items (Health Cloud standard)
@@ -84,29 +80,6 @@ An external client app `Benefit_Verification_Connected_App` is configured for:
 - **Account**: Patient and Payer records
 - **Contact**: Provider information
 - **Case**: Error case management
-
-## API Documentation
-
-API documentation is available in `API_DOCUMENTATION.md` including:
-- Authentication methods
-- Complete request/response formats
-- Error handling scenarios
-- Postman collection for testing
-- Usage examples
-
-## Inbound Integration (RESTful API) Testing with Postman Collection
-
-### Collection Features
-- **Authentication**: OAuth 2.0 setup for Salesforce API access
-- **Success Scenarios**: Complete benefit data testing
-- **Error Scenarios**: Invalid data and validation testing
-- **Data Validation**: Database validation testing
-
-### Test Scenarios Available
-1. **Submit Success Response**: Comprehensive benefit data testing
-2. **Submit Error Response**: Error handling with invalid data
-3. **Submit Invalid Request**: Validation testing for missing fields
-4. **Test Invalid CareBenefitVerifyRequest ID**: Database validation testing
 
 ## Usage Examples
 
@@ -148,34 +121,31 @@ The project includes comprehensive test coverage for:
 - Mock data generation
 - Error case creation
 
-### Test Classes
+## Deployment
 
-- **BenefitsVerificationServiceTest**: Tests the main service functionality
-- **CareBenefitVerificationResultsAPITest**: Tests the REST API endpoint
-- **MockHttpResponseGenerator**: HTTP callout mock for testing
+### 2nd Generation Packaging
 
-## Error Handling
+- **Command to generate 2GP package**:
+  ```bash
+  sf package create --name "BenefitVerification" --package-type Managed --path force-app/main/default --target-dev-hub bene-veri-devhub
+  ```
 
-### Validation Errors
-- **Missing Practitioner**: Patient without PCP relationship
-- **Inactive Plan**: Member plan not active
-- **Invalid Data**: Malformed request data
+- **Command to Create Package Version**:
+  ```bash
+  sf package version create --package "BenefitVerification" --wait 20 --installation-key-bypass -f config/project-scratch-def.json --tag "4 Aug 2025"
+  ```
 
-### Error Recovery
-- Failed requests are marked as 'Error' status
-- Error cases are created for tracking and manual review
-- No automatic retry mechanism currently implemented
+- **Command to Create Scratch Org to test the package**:
+  ```bash
+  sf org create scratch --definition-file config/project-scratch-def.json --alias TestOrg --set-default --no-namespace --target-dev-hub bene-veri-devhub
+  ```
 
-## Security Considerations
+- **Command to install the Package in scratch org**:
+  ```bash
+  sf package install --package "BenefitVerification@0.1.0-3" --target-org TestOrg1 --wait 20 --security-type AllUsers
+  ```
 
-- **Sharing Rules**: All classes use `with sharing` to respect Salesforce sharing rules
-- **Named Credentials**: External API credentials are stored securely
-- **Input Validation**: All inputs are validated before processing
-- **Error Logging**: Sensitive data is not logged in error messages
-- **Permission Sets**: Granular access control
-- **CRUD/FLS**: Security checks implemented where needed
-
-## Orgs in Context
+### Development Orgs
 
 #### 1. Salesforce Trail Health Cloud Learning org For Development
 
@@ -208,28 +178,6 @@ The project includes comprehensive test coverage for:
 ### Trail org sign up page links
 - https://help.salesforce.com/s/articleView?id=ind.hc_trial_org.htm&type=5
 
-### 2nd Generation Packaging
-
-- **Command to generate 2GP package**:
-  ```bash
-  sf package create --name "BenefitVerification" --package-type Managed --path force-app/main/default --target-dev-hub bene-veri-devhub
-  ```
-
-- **Command to Create Package Version**:
-  ```bash
-  sf package version create --package "BenefitVerification" --wait 20 --installation-key-bypass -f config/project-scratch-def.json --tag "4 Aug 2025"
-  ```
-
-- **Command to Create Scratch Org to test the package**:
-  ```bash
-  sf org create scratch --definition-file config/project-scratch-def.json --alias TestOrg --set-default --no-namespace --target-dev-hub bene-veri-devhub
-  ```
-
-- **Command to install the Package in scratch org**:
-  ```bash
-  sf package install --package "BenefitVerification@0.1.0-3" --target-org TestOrg1 --wait 20 --security-type AllUsers
-  ```
-
 ## Current Implementation Status
 
 ### ✅ Completed Features
@@ -245,14 +193,10 @@ The project includes comprehensive test coverage for:
    - API Limit for sf package version create command
    - ContactContactRelation object issue - unable to find the correct setting that needs to be added to the scratch-def.json file which is needed to create a stable version of package
 
-## Quick Start
 
-For detailed installation instructions, see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md).
+## Additional Resources
 
-### Installation Steps
-1. Deploy the package to your Salesforce org
-2. Assign the permission set to users
-3. Configure named credentials
-4. Set up assignment rules and queues
-5. Configure external client app for API access 
+- **API Documentation**: See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete API documentation
+- **Postman Collection**: Included for testing the RESTful API
+- **Installation Guide**: See [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md) for detailed setup instructions 
  
