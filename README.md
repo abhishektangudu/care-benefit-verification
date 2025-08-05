@@ -24,10 +24,10 @@ care-benefit-verification/
 
 ## Key Components
 
-## 1. Serivce Class
+### 1. Service Classes
 
 #### `BenefitsVerificationService`
-- **Purpose**: service for benefit verification request workflow
+- **Purpose**: Service for benefit verification request workflow
 
 #### `CareBenefitVerificationResultsAPI`
 - **Purpose**: REST API endpoint for receiving verification results from the benefits provider.
@@ -36,7 +36,6 @@ care-benefit-verification/
 
 #### `MockHttpResponseGenerator`
 - **Purpose**: HTTP callout mock for testing
-
 
 #### `BVMockDataGenerator`
 - **Purpose**: Test data generation utility
@@ -95,7 +94,7 @@ API documentation is available in `API_DOCUMENTATION.md` including:
 - Postman collection for testing
 - Usage examples
 
-## Inbound Integration(RESTful API) testing with Postman Collection
+## Inbound Integration (RESTful API) Testing with Postman Collection
 
 ### Collection Features
 - **Authentication**: OAuth 2.0 setup for Salesforce API access
@@ -176,53 +175,60 @@ The project includes comprehensive test coverage for:
 - **Permission Sets**: Granular access control
 - **CRUD/FLS**: Security checks implemented where needed
 
-## Deployment
+## Orgs in Context
 
-#### Orgs in Context
-1. Salesforce Trail Health Cloud Learning org For Development 
-┌──────────────────┬──────────────────────────────────────────────────────────────┐
-│ KEY              │ VALUE                                                        │
-├──────────────────┼──────────────────────────────────────────────────────────────┤         
-│ Alias            │ healthCloudOrg                                               │
-│ Api Version      │ 64.0                                                         │
-│ Client Id        │ PlatformCLI                                                  │
-│ Connected Status │ Connected                                                    │
-│ Id               │ 00Dbn00000qJDJlEAO                                           │
-│ Instance Url     │ https://infinitus.my.salesforce.com                          │
-│ Sfdx Auth Url    │ force://PlatformCLI::5Aep861UEZSe.tVXq9iuPW55ENKbR1i7xQA4x7A │
-│                  │ BZus_B7_u1B36i7HEgNaPJI52Ie6QCoZbKplsM1Dtlj7M0PW@infinitus.m │
-│                  │ y.salesforce.com                                             │
-│ Username         │ abhishektangudu-5aun@force.com                               │
-└──────────────────┴──────────────────────────────────────────────────────────────┘
-2. Salesforce Trail Health Cloud Base Org For Devhub
-┌──────────────────┬──────────────────────────────────────────────────────────────┐
-│ KEY              │ VALUE                                                        │
-├──────────────────┼──────────────────────────────────────────────────────────────┤
-│ Alias            │ bene-veri-devhub                                             │
-│ Api Version      │ 64.0                                                         │
-│ Client Id        │ PlatformCLI                                                  │
-│ Connected Status │ Connected                                                    │
-│ Id               │ 00Da500001Mq8YlEAJ                                           │
-│ Instance Url     │ https://beneveri.my.salesforce.com                           │
-│ Sfdx Auth Url    │ force://PlatformCLI::5Aep8612FOkUjfmSUz0UxnPG2DfVY7ZVE15D.ho │
-│                  │ SLdEMjkx0MdZOlCwVEyVt8qINgVnbLWcoaL608u9aB5wLQPJ@beneveri.my │
-│                  │ .salesforce.com                                              │
-│ Username         │ abhishektangudu-d5br@force.com                               │
-└──────────────────┴──────────────────────────────────────────────────────────────┘
-3. Salesforce Developer Edition Org For Namespace
+#### 1. Salesforce Trail Health Cloud Learning org For Development
 
-### Trail org sign up page links - https://help.salesforce.com/s/articleView?id=ind.hc_trial_org.htm&type=5
+| Key              | Value                                                        |
+|------------------|--------------------------------------------------------------|
+| Alias            | healthCloudOrg                                               |
+| Api Version      | 64.0                                                         |
+| Client Id        | PlatformCLI                                                  |
+| Connected Status | Connected                                                    |
+| Id               | 00Dbn00000qJDJlEAO                                           |
+| Instance Url     | https://infinitus.my.salesforce.com                          |
+| Sfdx Auth Url    | force://PlatformCLI::5Aep861UEZSe.tVXq9iuPW55ENKbR1i7xQA4x7A |
+| Username         | abhishektangudu-5aun@force.com                               |
+
+#### 2. Salesforce Trail Health Cloud Base Org For Devhub
+
+| Key              | Value                                                        |
+|------------------|--------------------------------------------------------------|
+| Alias            | bene-veri-devhub                                             |
+| Api Version      | 64.0                                                         |
+| Client Id        | PlatformCLI                                                  |
+| Connected Status | Connected                                                    |
+| Id               | 00Da500001Mq8YlEAJ                                           |
+| Instance Url     | https://beneveri.my.salesforce.com                           |
+| Sfdx Auth Url    | force://PlatformCLI::5Aep8612FOkUjfmSUz0UxnPG2DfVY7ZVE15D.ho |
+| Username         | abhishektangudu-d5br@force.com                               |
+
+#### 3. Salesforce Developer Edition Org For Namespace
+
+### Trail org sign up page links
+- https://help.salesforce.com/s/articleView?id=ind.hc_trial_org.htm&type=5
 
 ### 2nd Generation Packaging
 
-- Command to generate 2GP package
-`sf package create --name "BenefitVerification" --package-type Managed --path force-app/main/default --target-dev-hub bene-veri-devhub`
-- Command to Create Package Version
-`sf package version create --package "BenefitVerification" --wait 20 --installation-key-bypass -f config/project-scratch-def.json --tag "4 Aug 2025"`
-- Command to Create Scratch Org to test the package
-`sf org create scratch --definition-file config/project-scratch-def.json --alias TestOrg --set-default --no-namespace --target-dev-hub bene-veri-devhub`
-- Command to install the Package in scratch org
-`sf package install --package "BenefitVerification@0.1.0-3" --target-org TestOrg1 --wait 20 --security-type AllUsers` 
+- **Command to generate 2GP package**:
+  ```bash
+  sf package create --name "BenefitVerification" --package-type Managed --path force-app/main/default --target-dev-hub bene-veri-devhub
+  ```
+
+- **Command to Create Package Version**:
+  ```bash
+  sf package version create --package "BenefitVerification" --wait 20 --installation-key-bypass -f config/project-scratch-def.json --tag "4 Aug 2025"
+  ```
+
+- **Command to Create Scratch Org to test the package**:
+  ```bash
+  sf org create scratch --definition-file config/project-scratch-def.json --alias TestOrg --set-default --no-namespace --target-dev-hub bene-veri-devhub
+  ```
+
+- **Command to install the Package in scratch org**:
+  ```bash
+  sf package install --package "BenefitVerification@0.1.0-3" --target-org TestOrg1 --wait 20 --security-type AllUsers
+  ```
 
 ## Current Implementation Status
 
@@ -235,7 +241,18 @@ The project includes comprehensive test coverage for:
 - Error handling
 
 ### Issues
-1. unable to create stable package
-- API Limit for sf package version create command. 
-- ContactContactRelation object issue - unable find the correct setting that need to added to the scratch-def.json file which is needed to create a stable version of package.
+1. **Unable to create stable package**
+   - API Limit for sf package version create command
+   - ContactContactRelation object issue - unable to find the correct setting that needs to be added to the scratch-def.json file which is needed to create a stable version of package
+
+## Quick Start
+
+For detailed installation instructions, see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md).
+
+### Installation Steps
+1. Deploy the package to your Salesforce org
+2. Assign the permission set to users
+3. Configure named credentials
+4. Set up assignment rules and queues
+5. Configure external client app for API access 
  
