@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Salesforce Health Cloud project implements a care benefit verification system that handles the care benefit verification request initiation to care benefit verification result processing. The solution is implemented using health cloud objects that are part of the core salesforce platform.
+A care benefit verification system that handles the care benefit verification request initiation to care benefit verification result processing. The solution is implemented using health cloud objects that are part of the core salesforce platform.
 
 ## Architecture Overview
 
@@ -15,7 +15,7 @@ This Salesforce Health Cloud project implements a care benefit verification syst
                                 ▼                        ▼
                        ┌──────────────────┐    ┌─────────────────┐
                        │  Case Creation   │    │  External API   │
-                       │  (Error Mgmt)    │    │  Callouts       │
+                       │  (Review Mgmt)   │    │  Callouts       │
                        └──────────────────┘    └─────────────────┘
                                                         │
                                                         ▼
@@ -26,20 +26,18 @@ This Salesforce Health Cloud project implements a care benefit verification syst
 ```
 
 ## Business Requirements
-
-### Core Requirements
-- **Automated Processing**: Handle benefit verification requests without manual intervention
-- **Real-time Integration**: Connect with external insurance provider APIs
-- **Error Management**: Create cases for failed verifications with proper routing
-- **Scalability**: Process high volumes of requests asynchronously
+- **Benefits Verification Request**: Create Benefits Verification Requests.
+- **Automated Processing**: send benefit verification requests aysnchronously to provider API
+- **Real-time Integration**: Connect with external Benefits provider APIs
+- **Case Management**: Create cases for verifications requests to be review by Representatives
+- **REST API**: Provide endpoint for receiving verification results
 - **Audit Trail**: Maintain complete records of all verification attempts
 
-### Technical Requirements
-- **Salesforce Health Cloud**: Leverage existing Health Cloud objects
-- **Asynchronous Processing**: Use Queueable for API callouts
-- **REST API**: Provide endpoint for receiving verification results
-- **Assignment Rules**: Automatically route cases based on record type
-- **Security**: Implement proper sharing and field-level security
+## Assumptions:
+- **Salesforce Health Cloud**: Leverage Salesforce Core Health Cloud objects
+- **Member Plans**: Select the first member plan available.
+- **Medication Request**: Select the first Medication request available.
+- **Practitioner**: Practitioner & patient relationship is already defined.
 
 ## Quick Start
 
@@ -77,31 +75,11 @@ For detailed installation instructions, see [INSTALLATION_GUIDE.md](INSTALLATION
 - **CodeSet**: Individual code definitions (Health Cloud standard)
 
 #### Standard Objects
-- **Account**: Patient and Payer records
+- **PersonAccount**: Patient and Payer records
 - **Contact**: Provider information
 - **Case**: Error case management
 
-## Usage Examples
-
-### Flow Integration
-
-```apex
-// Invocable method for Flow integration
-List<Id> patientIds = new List<Id>{ '001000000000000' };
-BenefitsVerificationService.verifyBenefits(patientIds);
-```
-
-### Queueable Processing
-
-```apex
-// Process benefit verification requests asynchronously
-List<CareBenefitVerifyRequest> requests = [SELECT Id FROM CareBenefitVerifyRequest WHERE Status = 'Pending'];
-System.enqueueJob(new BenefitsVerificationService.BenefitVerificationCalloutQueueable(requests));
-```
-
-## Testing
-
-### Running Tests
+## Running Tests
 
 ```bash
 # Deploy and run all tests
@@ -114,7 +92,7 @@ sf apex run test --class-names CareBenefitVerificationResultsAPITest
 
 ### Test Coverage
 
-The project includes comprehensive test coverage for:
+The project includes test coverage for:
 - Service layer functionality
 - API endpoints and error handling
 - Queueable processing
@@ -183,7 +161,7 @@ The project includes comprehensive test coverage for:
 ### ✅ Completed Features
 - Core benefit verification service
 - REST API endpoint for results
-- Comprehensive test coverage
+- test coverage
 - Postman collection for testing
 - 2GP packaging configuration
 - Error handling
