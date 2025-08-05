@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <name>Drug Benefit Request</name>
+    <queueMembers>
+        <users>
+            <user>melinda.smith.cac.fi9hfq87vgtk.byzdb1hn.eu.koqmibf0teoa.frqcdgxgjm8c@force.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

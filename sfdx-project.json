@@ -1,0 +1,22 @@
+{
+  "packageDirectories": [
+    {
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "path": "force-app/main/default",
+      "default": true,
+      "package": "BenefitVerification",
+      "versionDescription": ""
+    }
+  ],
+  "name": "care-benefit-verification",
+  "namespace": "benvertest",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "64.0",
+  "packageAliases": {
+    "BenefitVerification": "0Hoa50000002ScvCAE",
+    "BenefitVerification@0.1.0-1": "04ta5000009yDlBAAU",
+    "BenefitVerification@0.1.0-2": "04ta5000009yDmnAAE",
+    "BenefitVerification@0.1.0-3": "04ta5000009yDoPAAU"
+  }
+}

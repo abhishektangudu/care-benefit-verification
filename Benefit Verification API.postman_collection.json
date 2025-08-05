@@ -1,0 +1,859 @@
+{
+	"info": {
+		"_postman_id": "1b19a348-24a5-4930-b602-3a41c74f7687",
+		"name": "Benefit Verification API",
+		"description": "Postman collection for testing the CareBenefitVerificationResultsAPI REST endpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47267708",
+		"_collection_link": "https://abhishektangudu-9f4a6781-5057522.postman.co/workspace/Abhishek-Tangudu's-Workspace~6fd74771-7fb4-436b-88ee-d309184ab21b/collection/47267708-1b19a348-24a5-4930-b602-3a41c74f7687?action=share&source=collection_link&creator=47267708"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Get Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Stores the access_token in an environment variable",
+									"//var jsonData = pm.response.json();",
+									"//pm.collectionVariables.set(\"access_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "accessTokenUrl",
+									"value": "{{login_url}}/services/oauth2/token",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "BV new",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "refresh_token offline_access",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "{{client_secret}}",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "{{client_id}}",
+									"type": "string"
+								},
+								{
+									"key": "useBrowser",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "authUrl",
+									"value": "{{login_url}}/services/oauth2/authorize",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "string"
+								},
+								{
+									"key": "challengeAlgorithm",
+									"value": "S256",
+									"type": "string"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "https://oauth.pstmn.io/v1/callback",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "redirect_uri",
+									"value": "https://oauth.pstmn.io/v1/callback",
+									"description": "\n",
+									"type": "text"
+								},
+								{
+									"key": "response_type",
+									"value": "code",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{login_url}}/services/oauth2/authorize",
+							"host": [
+								"{{login_url}}"
+							],
+							"path": [
+								"services",
+								"oauth2",
+								"authorize"
+							]
+						},
+						"description": "Get OAuth2 access token for Salesforce API authentication"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "password"
+										},
+										{
+											"key": "client_id",
+											"value": "{{client_id}}"
+										},
+										{
+											"key": "client_secret",
+											"value": "{{client_secret}}"
+										},
+										{
+											"key": "username",
+											"value": "{{username}}"
+										},
+										{
+											"key": "password",
+											"value": "{{password}}"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{login_url}}/services/oauth2/token",
+									"host": [
+										"{{login_url}}"
+									],
+									"path": [
+										"services",
+										"oauth2",
+										"token"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"access_token\": \"00D1234567890ABC!AQEAQJ1234567890ABC\",\n    \"instance_url\": \"https://your-instance.salesforce.com\",\n    \"id\": \"https://login.salesforce.com/id/00D1234567890ABC/0051234567890ABC\",\n    \"token_type\": \"Bearer\",\n    \"issued_at\": \"1234567890123\",\n    \"signature\": \"ABC123DEF456GHI789\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Authentication requests for Salesforce API access"
+		},
+		{
+			"name": "Benefit Verification Results",
+			"item": [
+				{
+					"name": "Submit Success Response",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"/*// Parse the payload sent to the webhook",
+									"var previousRequest = JSON.parse(pm.globals.get('previousRequest'));",
+									"var webhookRequestData = previousRequest.data.triggerData; // Adjust path based on your webhookPayload structure",
+									"",
+									"// Set collection variables that the request body can use",
+									"pm.collectionVariables.set(\"capturedIdentifier\", webhookRequestData.triggerData.benefitsRequestId);",
+									"pm.collectionVariables.set(\"capturedMessage\", webhookRequestData.message);",
+									"",
+									"console.log(\"Data from webhook in Collection Runner:\", webhookRequestData);",
+									"*/"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"benefitsRequestId\": \"0n2bn0000001yIHAAY\",\n    \"memberNumber\": \"1234\",\n    \"groupNumber\": \"crm123\",\n    \"isCoverageActive\": true,\n    \"benefitPeriodStartDate\": \"2024/01/01\",\n    \"benefitPeriodEndDate\": \"2024/12/31\",\n    \"errorResponse\": \"\",\n    \"jsonResponse\": \"{\\\"status\\\": \\\"success\\\", \\\"message\\\": \\\"Benefits verified successfully\\\"}\",\n    \"benefitNotes\": \"Comprehensive health benefits coverage with full in-network and out-of-network benefits\",\n    \"coinsuranceNotes\": \"20% coinsurance after deductible for in-network, 40% for out-of-network\",\n    \"copayNotes\": \"Standard copay amounts apply for office visits and services\",\n    \"coverageType\": \"Comprehensive\",\n    \"deductibleNotes\": \"Individual and family deductibles apply separately\",\n    \"disclaimer\": \"Benefits subject to plan terms and conditions. Prior authorization may be required for certain services.\",\n    \"lifetimeMaximumNotes\": \"No lifetime maximum on most services. Some services may have annual limits.\",\n    \"outofPocketNotes\": \"$6,000 individual out-of-pocket maximum, $12,000 family maximum\",\n    \"emergencyDepartmentCopay\": 150.00,\n    \"pharmaCopayAmount\": 10.00,\n    \"primaryCareCopay\": 25.00,\n    \"specialistCopay\": 40.00,\n    \"urgentCareCopay\": 50.00,\n    \"inNetworkCoinsuranceAmount\": 0.00,\n    \"inNetworkCoinsurancePercentage\": 20.00,\n    \"inNetworkLifetimeMaximum\": 0.00,\n    \"outofNetworkCoinsuranceAmount\": 0.00,\n    \"outofNetworkCoinsurancePercentage\": 40.00,\n    \"outofNetworkLifetimeMaximum\": 0.00,\n    \"individualInNetworkDeductibleApplied\": 500.00,\n    \"individualInNetworkDeductibleLimit\": 1500.00,\n    \"individualInNetworkDeductibleRemaining\": 1000.00,\n    \"individualInNetworkOutofPocketApplied\": 1200.00,\n    \"individualInNetworkOutofPocketLimit\": 6000.00,\n    \"individualInNetworkOutofPocketRemaining\": 4800.00,\n    \"individualOutofNetworkDeductibleApplied\": 800.00,\n    \"individualOutofNetworkDeductibleLimit\": 3000.00,\n    \"individualOutofNetworkDeductibleRemain\": 2200.00,\n    \"individualOutofNetworkOutofPocketApplied\": 2400.00,\n    \"individualOutofNetworkOutofPocketLimit\": 12000.00,\n    \"individualOutofNetworkOutofPocketRemain\": 9600.00,\n    \"familyInNetworkDeductibleApplied\": 1200.00,\n    \"familyInNetworkDeductibleLimit\": 3000.00,\n    \"familyInNetworkDeductibleRemaining\": 1800.00,\n    \"familyInNetworkOutofPocketApplied\": 3000.00,\n    \"familyInNetworkOutofPocketLimit\": 12000.00,\n    \"familyInNetworkOutofPocketRemaining\": 9000.00,\n    \"familyOutofNetworkDeductibleApplied\": 2000.00,\n    \"familyOutofNetworkDeductibleLimit\": 6000.00,\n    \"familyOutofNetworkDeductibleRemaining\": 4000.00,\n    \"familyOutofNetworkOutofPocketApplied\": 6000.00,\n    \"familyOutofNetworkOutofPocketLimit\": 24000.00,\n    \"familyOutofNetworkOutofPocketRemaining\": 18000.00,\n    \"benefitsItem\": [\n        {\n            \"serviceType\": \"Health Benefits Plan Coverage\",\n            \"serviceTypeCode\": \"30\",\n            \"benefitsCategory\": \"Plan Coverage and General Benefits\",\n            \"notes\": \"Comprehensive health benefits coverage with full in-network and out-of-network benefits\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"1500\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Annual deductible for individual coverage\",\n                    \"termType\": \"Calendar Year\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"25\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Co-payment for primary care office visits\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"40\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Co-payment for specialist office visits\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"50\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Co-payment for urgent care visits\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"150\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Co-payment for emergency department visits\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"10\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Co-payment for generic prescription drugs\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"3000\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Family\",\n                    \"limitNotes\": \"Annual deductible for family coverage\",\n                    \"termType\": \"Calendar Year\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"3000\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Annual deductible for out-of-network individual coverage\",\n                    \"termType\": \"Calendar Year\",\n                    \"networkType\": \"OUT\"\n                },\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"6000\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Family\",\n                    \"limitNotes\": \"Annual deductible for out-of-network family coverage\",\n                    \"termType\": \"Calendar Year\",\n                    \"networkType\": \"OUT\"\n                },\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"6000\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Annual out-of-pocket maximum for individual coverage\",\n                    \"termType\": \"Calendar Year\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"12000\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Family\",\n                    \"limitNotes\": \"Annual out-of-pocket maximum for family coverage\",\n                    \"termType\": \"Calendar Year\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"12000\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Annual out-of-pocket maximum for out-of-network individual coverage\",\n                    \"termType\": \"Calendar Year\",\n                    \"networkType\": \"OUT\"\n                },\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"24000\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Family\",\n                    \"limitNotes\": \"Annual out-of-pocket maximum for out-of-network family coverage\",\n                    \"termType\": \"Calendar Year\",\n                    \"networkType\": \"OUT\"\n                }\n            ]\n        },\n        {\n            \"serviceType\": \"Immunizations\",\n            \"serviceTypeCode\": \"80\",\n            \"benefitsCategory\": \"Immunizations\",\n            \"notes\": \"Preventive immunizations covered at 100%\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"0\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"No copay for preventive immunizations\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                }\n            ]\n        },\n        {\n            \"serviceType\": \"Preventive Care\",\n            \"serviceTypeCode\": \"85\",\n            \"benefitsCategory\": \"Preventive Care\",\n            \"notes\": \"Annual physical and preventive services covered at 100%\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"0\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"No copay for annual physical exam\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                }\n            ]\n        },\n        {\n            \"serviceType\": \"Laboratory Services\",\n            \"serviceTypeCode\": \"35\",\n            \"benefitsCategory\": \"Laboratory Services\",\n            \"notes\": \"Diagnostic laboratory services covered after deductible\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"20\",\n                    \"benefitMetricType\": \"Percentage\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"20% coinsurance after deductible\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                }\n            ]\n        },\n        {\n            \"serviceType\": \"Radiology Services\",\n            \"serviceTypeCode\": \"40\",\n            \"benefitsCategory\": \"Radiology Services\",\n            \"notes\": \"Diagnostic imaging services covered after deductible\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"20\",\n                    \"benefitMetricType\": \"Percentage\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"20% coinsurance after deductible\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                }\n            ]\n        },\n        {\n            \"serviceType\": \"Mental Health Services\",\n            \"serviceTypeCode\": \"50\",\n            \"benefitsCategory\": \"Mental Health Services\",\n            \"notes\": \"Outpatient mental health services covered\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"40\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Co-payment for outpatient mental health visits\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"40\",\n                    \"benefitMetricType\": \"Percentage\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"40% coinsurance for out-of-network mental health services\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"OUT\"\n                }\n            ]\n        },\n        {\n            \"serviceType\": \"Substance Abuse Services\",\n            \"serviceTypeCode\": \"55\",\n            \"benefitsCategory\": \"Substance Abuse Services\",\n            \"notes\": \"Outpatient substance abuse treatment covered\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"40\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Co-payment for outpatient substance abuse visits\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                }\n            ]\n        },\n        {\n            \"serviceType\": \"Physical Therapy\",\n            \"serviceTypeCode\": \"60\",\n            \"benefitsCategory\": \"Physical Therapy\",\n            \"notes\": \"Physical therapy services covered with prior authorization\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"30\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Co-payment for physical therapy visits\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                },\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"40\",\n                    \"benefitMetricType\": \"Percentage\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"40% coinsurance for out-of-network physical therapy\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"OUT\"\n                }\n            ]\n        },\n        {\n            \"serviceType\": \"Occupational Therapy\",\n            \"serviceTypeCode\": \"65\",\n            \"benefitsCategory\": \"Occupational Therapy\",\n            \"notes\": \"Occupational therapy services covered with prior authorization\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"30\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Co-payment for occupational therapy visits\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                }\n            ]\n        },\n        {\n            \"serviceType\": \"Speech Therapy\",\n            \"serviceTypeCode\": \"70\",\n            \"benefitsCategory\": \"Speech Therapy\",\n            \"notes\": \"Speech therapy services covered with prior authorization\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"B\",\n                    \"benefitValue\": \"30\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"Co-payment for speech therapy visits\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                }\n            ]\n        },\n        {\n            \"serviceType\": \"Durable Medical Equipment\",\n            \"serviceTypeCode\": \"75\",\n            \"benefitsCategory\": \"Durable Medical Equipment\",\n            \"notes\": \"Durable medical equipment covered after deductible\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"20\",\n                    \"benefitMetricType\": \"Percentage\",\n                    \"coverageLevel\": \"Individual\",\n                    \"limitNotes\": \"20% coinsurance after deductible\",\n                    \"termType\": \"Day\",\n                    \"networkType\": \"IN\"\n                }\n            ]\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{instance_url}}/services/apexrest/care-benefit-verification-results",
+							"host": [
+								"{{instance_url}}"
+							],
+							"path": [
+								"services",
+								"apexrest",
+								"care-benefit-verification-results"
+							]
+						},
+						"description": "Submit a successful benefit verification result with comprehensive benefits data"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"benefitsRequestId\": \"a0B1234567890ABC\",\n    \"memberNumber\": \"1234\",\n    \"groupNumber\": \"crm123\",\n    \"isCoverageActive\": true,\n    \"benefitPeriodStartDate\": \"2024/01/01\",\n    \"benefitPeriodEndDate\": \"2024/12/31\",\n    \"errorResponse\": \"\",\n    \"jsonResponse\": \"{\\\"status\\\": \\\"success\\\", \\\"message\\\": \\\"Benefits verified successfully\\\"}\",\n    \"benefitsItem\": [\n        {\n            \"serviceType\": \"Health Benefits Plan Coverage\",\n            \"serviceTypeCode\": \"30\",\n            \"benefitsCategory\": \"Plan Coverage and General Benefits\",\n            \"notes\": \"Comprehensive health benefits coverage\",\n            \"inPlanNetworkIndicator\": true,\n            \"benefitsItemLimit\": [\n                {\n                    \"benefitCode\": \"C\",\n                    \"benefitValue\": \"2800\",\n                    \"benefitMetricType\": \"Money\",\n                    \"coverageLevel\": \"Family\",\n                    \"limitNotes\": \"Annual deductible for family coverage\",\n                    \"termType\": \"Calendar Year\",\n                    \"networkType\": \"IN\"\n                }\n            ]\n        }\n    ]\n}"
+								},
+								"url": {
+									"raw": "{{instance_url}}/services/apexrest/care-benefit-verification-results",
+									"host": [
+										"{{instance_url}}"
+									],
+									"path": [
+										"services",
+										"apexrest",
+										"care-benefit-verification-results"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Benefit verification result processed successfully\",\n    \"errors\": [],\n    \"coverageBenefitId\": \"0TLbn0000002iUnGAI\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Submit Error Response",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"benefitsRequestId\": \"a0B1234567890XYZ\",\n    \"memberNumber\": \"12345\",\n    \"groupNumber\": \"crm123\",\n    \"isCoverageActive\": false,\n    \"benefitPeriodStartDate\": \"\",\n    \"benefitPeriodEndDate\": \"\",\n    \"errorResponse\": \"Invalid Member Number\",\n    \"jsonResponse\": \"\",\n    \"benefitsItem\": []\n}"
+						},
+						"url": {
+							"raw": "{{instance_url}}/services/apexrest/care-benefit-verification-results",
+							"host": [
+								"{{instance_url}}"
+							],
+							"path": [
+								"services",
+								"apexrest",
+								"care-benefit-verification-results"
+							]
+						},
+						"description": "Submit an error response when benefit verification fails"
+					},
+					"response": [
+						{
+							"name": "Error Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"benefitsRequestId\": \"a0B1234567890XYZ\",\n    \"memberNumber\": \"12345\",\n    \"groupNumber\": \"crm123\",\n    \"isCoverageActive\": false,\n    \"benefitPeriodStartDate\": \"\",\n    \"benefitPeriodEndDate\": \"\",\n    \"errorResponse\": \"Invalid Member Number\",\n    \"jsonResponse\": \"\",\n    \"benefitsItem\": []\n}"
+								},
+								"url": {
+									"raw": "{{instance_url}}/services/apexrest/care-benefit-verification-results",
+									"host": [
+										"{{instance_url}}"
+									],
+									"path": [
+										"services",
+										"apexrest",
+										"care-benefit-verification-results"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"API Error: CareBenefitVerifyRequest not found with ID: a0B1234567890XYZ\",\n    \"errors\": [\n        \"CareBenefitVerifyRequest not found with ID: a0B1234567890XYZ\"\n    ],\n    \"coverageBenefitId\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Submit Invalid Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"memberNumber\": \"1234\",\n    \"groupNumber\": \"crm123\",\n    \"isCoverageActive\": true,\n    \"benefitPeriodStartDate\": \"2024/01/01\",\n    \"benefitPeriodEndDate\": \"2024/12/31\"\n}"
+						},
+						"url": {
+							"raw": "{{instance_url}}/services/apexrest/care-benefit-verification-results",
+							"host": [
+								"{{instance_url}}"
+							],
+							"path": [
+								"services",
+								"apexrest",
+								"care-benefit-verification-results"
+							]
+						},
+						"description": "Submit an invalid request missing required fields"
+					},
+					"response": [
+						{
+							"name": "Validation Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"memberNumber\": \"1234\",\n    \"groupNumber\": \"crm123\",\n    \"isCoverageActive\": true,\n    \"benefitPeriodStartDate\": \"2024/01/01\",\n    \"benefitPeriodEndDate\": \"2024/12/31\"\n}"
+								},
+								"url": {
+									"raw": "{{instance_url}}/services/apexrest/care-benefit-verification-results",
+									"host": [
+										"{{instance_url}}"
+									],
+									"path": [
+										"services",
+										"apexrest",
+										"care-benefit-verification-results"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"API Error: benefitsRequestId is required\",\n    \"coverageBenefitId\": null,\n    \"errors\": [\n        \"benefitsRequestId is required\"\n    ]\n}"
+						}
+					]
+				}
+			],
+			"description": "API requests for submitting benefit verification results"
+		},
+		{
+			"name": "Data Validation",
+			"item": [
+				{
+					"name": "Test Invalid CareBenefitVerifyRequest ID",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"benefitsRequestId\": \"INVALID_ID_123\",\n    \"memberNumber\": \"1234\",\n    \"groupNumber\": \"crm123\",\n    \"isCoverageActive\": true,\n    \"benefitPeriodStartDate\": \"2024/01/01\",\n    \"benefitPeriodEndDate\": \"2024/12/31\",\n    \"errorResponse\": \"\",\n    \"jsonResponse\": \"\",\n    \"benefitsItem\": []\n}"
+						},
+						"url": {
+							"raw": "{{instance_url}}/services/apexrest/care-benefit-verification-results",
+							"host": [
+								"{{instance_url}}"
+							],
+							"path": [
+								"services",
+								"apexrest",
+								"care-benefit-verification-results"
+							]
+						},
+						"description": "Test with an invalid CareBenefitVerifyRequest ID"
+					},
+					"response": [
+						{
+							"name": "Not Found Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"benefitsRequestId\": \"INVALID_ID_123\",\n    \"memberNumber\": \"1234\",\n    \"groupNumber\": \"crm123\",\n    \"isCoverageActive\": true,\n    \"benefitPeriodStartDate\": \"2024/01/01\",\n    \"benefitPeriodEndDate\": \"2024/12/31\",\n    \"errorResponse\": \"\",\n    \"jsonResponse\": \"\",\n    \"benefitsItem\": []\n}"
+								},
+								"url": {
+									"raw": "{{instance_url}}/services/apexrest/care-benefit-verification-results",
+									"host": [
+										"{{instance_url}}"
+									],
+									"path": [
+										"services",
+										"apexrest",
+										"care-benefit-verification-results"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": false,\n    \"message\": \"API Error: CareBenefitVerifyRequest not found with ID: INVALID_ID_123\",\n    \"coverageBenefitId\": null,\n    \"errors\": [\n        \"CareBenefitVerifyRequest not found with ID: INVALID_ID_123\"\n    ]\n}"
+						}
+					]
+				}
+			],
+			"description": "Data validation and error handling tests"
+		},
+		{
+			"name": "External Verification API",
+			"item": [
+				{
+					"name": "External BenefitVerification API",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/*// Fixed responseData access",
+									"const responseData = pm.response.json();",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response body contains expected properties\", function () {",
+									"    pm.expect(responseData).to.be.an('object').that.is.not.empty; // Ensure response is an object",
+									"    pm.expect(responseData).to.have.all.keys('status', 'statusReason');",
+									"});",
+									"",
+									"// Example in the Tests script of your mock server's example",
+									"const incomingRequestData = pm.request.body ? pm.request.body : {}; // Ensure the body is accessible",
+									"const webhookPayload = {",
+									"    triggerData: incomingRequestData,",
+									"    // Add any other context you need to pass to the Flow",
+									"};",
+									"",
+									"pm.sendRequest({",
+									"    url: 'https://newman-api.getpostman.com/run/47267708/7b4160b0-581f-4068-aa24-33e2fe55ab9d', // Replace with the actual Webhook URL you copied",
+									"    method: 'POST',",
+									"    header: {",
+									"        'Content-Type': 'application/json'",
+									"    },",
+									"    body: {",
+									"        mode: 'raw',",
+									"        raw: JSON.stringify(webhookPayload) // This payload will be sent to the webhook",
+									"    }",
+									"}, function (err, res) {",
+									"    if (err) {",
+									"        console.error(\"Error triggering Postman webhook:\", err);",
+									"    } else {",
+									"        console.log(\"Postman webhook triggered successfully:\", res.json());",
+									"    }",
+									"});*/",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Parse the incoming request body from the Salesforce",
+									"const requestBody = JSON.parse(pm.request.body);",
+									"",
+									"// Set a collection variable to store the data you want to use later",
+									"// This variable will be available during the Collection Runner run",
+									"pm.collectionVariables.set(\"benefitRequestId\", requestBody.benefitRequestId);",
+									"pm.collectionVariables.set(\"benefitRequestBody\", requestBody);",
+									"",
+									"console.log(\"Mock server received data:\", requestBody);",
+									"console.log(\"Benefit RequestId:\", pm.collectionVariables.get(\"benefitRequestId\"));",
+									"console.log(\"Benefit Request Body:\", pm.collectionVariables.get(\"benefitRequestBody\"));",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"benefitRequestId\": \"test123\",\n    \"serviceDetails\": {\n        \"serviceType\": \"Comprehensive Review\",\n        \"serviceDate\": \"2025-08-02\"\n    },\n    \"providerInformation\": {\n        \"nationalProviderIdentifier\": \"3297846\",\n        \"lastName\": \"Huffman\",\n        \"firstName\": \"Amy\"\n    },\n    \"patientDetails\": {\n        \"lastName\": \"Green\",\n        \"gender\": \"Male\",\n        \"firstName\": \"Charles\",\n        \"dateOfBirth\": \"1936-08-04\"\n    },\n    \"insuranceInformation\": {\n        \"subscriberID\": \"987-654321-890\",\n        \"policyNumber\": null,\n        \"insuranceProviderName\": \"Makana Health\",\n        \"groupNumber\": \"W1259801\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://infinitusmockbvendpoint-rji9z4.5sc6y6-2.usa-e2.cloudhub.io/benefit-verification-request",
+							"protocol": "https",
+							"host": [
+								"infinitusmockbvendpoint-rji9z4",
+								"5sc6y6-2",
+								"usa-e2",
+								"cloudhub",
+								"io"
+							],
+							"path": [
+								"benefit-verification-request"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "External BenefitVerification API",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"serviceDetails\": {\n        \"serviceType\": \"Comprehensive Review\",\n        \"serviceDate\": \"2025-08-02\"\n    },\n    \"providerInformation\": {\n        \"nationalProviderIdentifier\": \"3297846\",\n        \"lastName\": \"Huffman\",\n        \"firstName\": \"Amy\"\n    },\n    \"patientDetails\": {\n        \"lastName\": \"Green\",\n        \"gender\": \"Male\",\n        \"firstName\": \"Charles\",\n        \"dateOfBirth\": \"1936-08-04\"\n    },\n    \"insuranceInformation\": {\n        \"subscriberID\": \"987-654321-890\",\n        \"policyNumber\": null,\n        \"insuranceProviderName\": \"Makana Health\",\n        \"groupNumber\": \"W1259801\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://infinitusmockbvendpoint-rji9z4.5sc6y6-2.usa-e2.cloudhub.io/benefit-verification-request",
+									"protocol": "https",
+									"host": [
+										"infinitusmockbvendpoint-rji9z4",
+										"5sc6y6-2",
+										"usa-e2",
+										"cloudhub",
+										"io"
+									],
+									"path": [
+										"benefit-verification-request"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": \"Acknowledged\",\n    \"statusReason\": \"Care Benefit Verification Request successfully sent to Benefits Verification Provider.\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "scope",
+				"value": "refresh_token offline_access api",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "{{login_url}}/services/oauth2/authorize",
+				"type": "string"
+			},
+			{
+				"key": "useBrowser",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "grant_type",
+				"value": "authorization_code",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "BV Refresh Token",
+				"type": "string"
+			},
+			{
+				"key": "refreshTokenUrl",
+				"value": "{{login_url}}/services/oauth2/token",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "{{client_secret}}",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{client_id}}",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "{{login_url}}/services/oauth2/token",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Auto-set access token if available",
+					"if (pm.environment.get('access_token')) {",
+					"    pm.request.headers.add({",
+					"        key: 'Authorization',",
+					"        value: 'Bearer ' + pm.environment.get('access_token')",
+					"    });",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Test script to validate responses",
+					"pm.test('Status code is 200', function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test('Response has required fields', function () {",
+					"    const response = pm.response.json();",
+					"    pm.expect(response).to.have.property('success');",
+					"    pm.expect(response).to.have.property('message');",
+					"    pm.expect(response).to.have.property('errors');",
+					"});",
+					"",
+					"pm.test('Success response has coverageBenefitId', function () {",
+					"    const response = pm.response.json();",
+					"    if (response.success) {",
+					"        pm.expect(response).to.have.property('coverageBenefitId');",
+					"        pm.expect(response.coverageBenefitId).to.not.be.null;",
+					"    }",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "login_url",
+			"value": "https://login.salesforce.com",
+			"type": "string"
+		},
+		{
+			"key": "instance_url",
+			"value": "https://your-instance.salesforce.com",
+			"type": "string"
+		},
+		{
+			"key": "client_id",
+			"value": "your_connected_app_consumer_key",
+			"type": "string"
+		},
+		{
+			"key": "client_secret",
+			"value": "your_connected_app_consumer_secret",
+			"type": "string"
+		},
+		{
+			"key": "username",
+			"value": "your_username@your-org.com",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "your_password_with_security_token",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "capturedIdentifier",
+			"value": ""
+		},
+		{
+			"key": "capturedMessage",
+			"value": ""
+		}
+	]
+}

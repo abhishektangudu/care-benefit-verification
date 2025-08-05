@@ -1,0 +1,25 @@
+{
+  "orgName": "Benefit Verification HC Company",
+  "edition": "Enterprise",
+  "features": [
+    "EnableSetPasswordInApi",
+    "HealthCloudAddOn",
+    "PersonAccounts"
+  ],
+  "settings": {
+    "accountSettings": {
+      "enableRelateContactToMultipleAccounts": true
+    },
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "securitySettings": {
+      "sessionSettings": {
+        "forceRelogin": false
+      }
+    },
+    "mobileSettings": {
+      "enableS1EncryptedStoragePref2": false
+    }
+  }
+}
