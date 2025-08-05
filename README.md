@@ -60,25 +60,6 @@ For detailed installation instructions, see [INSTALLATION_GUIDE.md](INSTALLATION
 #### `CareBenefitVerificationResultsAPI`
 - **Purpose**: REST API endpoint for receiving verification results from the benefits provider.
 
-### Data Models
-
-#### Health Cloud Objects
-- **CareBenefitVerifyRequest**: Main request record for benefit verification
-- **CoverageBenefit**: Main benefit record (Health Cloud standard)
-- **CoverageBenefitItem**: Individual benefit items (Health Cloud standard)
-- **CoverageBenefitItemLimit**: Benefit limits and details (Health Cloud standard)
-- **MemberPlan**: Insurance plan information (Health Cloud standard)
-- **MedicationRequest**: Prescription information (Health Cloud standard)
-- **HealthcareProvider**: Provider details (Health Cloud standard)
-- **HealthcareProviderNpi**: NPI information (Health Cloud standard)
-- **CodeSetBundle**: Code set management (Health Cloud standard)
-- **CodeSet**: Individual code definitions (Health Cloud standard)
-
-#### Standard Objects
-- **PersonAccount**: Patient and Payer records
-- **Contact**: Provider information
-- **Case**: Error case management
-
 ## Running Tests
 
 ```bash
@@ -122,6 +103,9 @@ The project includes test coverage for:
   ```bash
   sf package install --package "BenefitVerification@0.1.0-3" --target-org TestOrg1 --wait 20 --security-type AllUsers
   ```
+###
+- **Package Installation Link**: Version0.1.0-3
+ -https://login.salesforce.com/packaging/installPackage.apexp?p0=04ta5000009yDoPAAU
 
 ### Development Orgs
 
