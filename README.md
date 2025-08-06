@@ -152,8 +152,8 @@ The project includes test coverage for:
 
 ### Issues
 1. **Unable to create stable package**
-   - API Limit for sf package version create command
-   - ContactContactRelation object issue - unable to find the correct setting that needs to be added to the scratch-def.json file which is needed to create a stable version of package
+   - API Limit for sf package version create command - Developer Edition org.
+   - Package is not ready to be installed.
 
 
 ## Additional Resources
@@ -161,4 +161,7 @@ The project includes test coverage for:
 - **API Documentation**: See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete API documentation
 - **Postman Collection**: Included for testing the RESTful API
 - **Installation Guide**: See [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md) for detailed setup instructions 
+
+### Demo Video
+-https://www.loom.com/share/d7b8292b517641d885ca9b204d70ad31?sid=fd9d7310-ce57-4a61-a0ab-c39436c83690
  
