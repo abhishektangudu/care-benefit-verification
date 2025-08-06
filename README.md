@@ -41,6 +41,9 @@ A care benefit verification system that handles the care benefit verification re
 
 ## Quick Start
 
+### Demo Video
+- https://www.loom.com/share/d7b8292b517641d885ca9b204d70ad31?sid=fd9d7310-ce57-4a61-a0ab-c39436c83690
+
 For detailed installation instructions, see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md).
 
 ### Installation Steps
@@ -162,6 +165,4 @@ The project includes test coverage for:
 - **Postman Collection**: Included for testing the RESTful API
 - **Installation Guide**: See [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md) for detailed setup instructions 
 
-### Demo Video
--https://www.loom.com/share/d7b8292b517641d885ca9b204d70ad31?sid=fd9d7310-ce57-4a61-a0ab-c39436c83690
  
