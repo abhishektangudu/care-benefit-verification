@@ -44,14 +44,14 @@ A care benefit verification system that handles the care benefit verification re
 ### Demo Video
 - https://www.loom.com/share/d7b8292b517641d885ca9b204d70ad31?sid=fd9d7310-ce57-4a61-a0ab-c39436c83690
 
-For detailed installation instructions, see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md).
-
 ### Installation Steps
 1. Deploy the package to your Salesforce org
 2. Assign the permission set to users
 3. Configure named credentials
 4. Set up assignment rules and queues
 5. Configure external client app for API access
+
+For detailed installation instructions, see [INSTALLATION_GUIDE.md](INSTALLATION_GUIDE.md).
 
 ## Key Components
 
