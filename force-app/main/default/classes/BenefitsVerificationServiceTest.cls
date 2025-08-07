@@ -95,7 +95,7 @@ private class BenefitsVerificationServiceTest {
     @isTest
     static void testBenefitVerificationCalloutQueueable_WithSuccessfulCallout_UpdatesRequestAndCreatesCase() {
         Account patient = [SELECT Id FROM Account WHERE FirstName = 'John' AND LastName = 'Patient' LIMIT 1];
-        MemberPlan plan = [SELECT Id FROM MemberPlan WHERE MemberId = :patient.Id LIMIT 1];
+        MemberPlan plan = [SELECT Id, MemberId FROM MemberPlan WHERE MemberId = :patient.Id LIMIT 1];
         
         // Create a request to process
         CareBenefitVerifyRequest requestToProcess = new CareBenefitVerifyRequest(
@@ -110,10 +110,11 @@ private class BenefitsVerificationServiceTest {
         Test.startTest();
         BenefitsVerificationService.QueueableData data = new BenefitsVerificationService.QueueableData();
         data.requestsToProcess = new List<CareBenefitVerifyRequest>{ requestToProcess };
-        data.patientAccounts = new Map<Id, Account>();
+        data.patientAccounts = new Map<Id, Account>{ patient.Id => patient };
         data.providerContacts = new Map<Id, Contact>();
         data.providerNpis = new Map<Id, String>();
         data.patientToPractitioner = new Map<Id, Id>();
+        data.memberPlanMap = new Map<Id, MemberPlan>{ plan.Id => plan };
         
         System.enqueueJob(new BenefitsVerificationService.BenefitVerificationCalloutQueueable(data));
         Test.stopTest();
@@ -126,7 +127,7 @@ private class BenefitsVerificationServiceTest {
     @isTest
     static void testBenefitVerificationCalloutQueueable_WithFailedCallout_HandlesError() {
         Account patient = [SELECT Id FROM Account WHERE FirstName = 'John' AND LastName = 'Patient' LIMIT 1];
-        MemberPlan plan = [SELECT Id FROM MemberPlan WHERE MemberId = :patient.Id LIMIT 1];
+        MemberPlan plan = [SELECT Id, MemberId FROM MemberPlan WHERE MemberId = :patient.Id LIMIT 1];
         
         // Create a request to process
         CareBenefitVerifyRequest requestToProcess = new CareBenefitVerifyRequest(
@@ -141,10 +142,11 @@ private class BenefitsVerificationServiceTest {
         Test.startTest();
         BenefitsVerificationService.QueueableData data = new BenefitsVerificationService.QueueableData();
         data.requestsToProcess = new List<CareBenefitVerifyRequest>{ requestToProcess };
-        data.patientAccounts = new Map<Id, Account>();
+        data.patientAccounts = new Map<Id, Account>{ patient.Id => patient };
         data.providerContacts = new Map<Id, Contact>();
         data.providerNpis = new Map<Id, String>();
         data.patientToPractitioner = new Map<Id, Id>();
+        data.memberPlanMap = new Map<Id, MemberPlan>{ plan.Id => plan };
         
         System.enqueueJob(new BenefitsVerificationService.BenefitVerificationCalloutQueueable(data));
         Test.stopTest();
@@ -166,7 +168,7 @@ private class BenefitsVerificationServiceTest {
         Account patient = [SELECT Id FROM Account WHERE FirstName = 'John' AND LastName = 'Patient' LIMIT 1];
         
         // Create a new request with a valid member plan ID but no practitioner relationship
-        MemberPlan validPlan = [SELECT Id FROM MemberPlan WHERE MemberId = :patient.Id LIMIT 1];
+        MemberPlan validPlan = [SELECT Id, MemberId FROM MemberPlan WHERE MemberId = :patient.Id LIMIT 1];
         CareBenefitVerifyRequest request = new CareBenefitVerifyRequest();
         request.MemberPlanId = validPlan.Id; // Use valid plan ID
         request.Status = 'Pending';
@@ -174,10 +176,11 @@ private class BenefitsVerificationServiceTest {
         
         BenefitsVerificationService.QueueableData data = new BenefitsVerificationService.QueueableData();
         data.requestsToProcess = new List<CareBenefitVerifyRequest>{ request };
-        data.patientAccounts = new Map<Id, Account>();
+        data.patientAccounts = new Map<Id, Account>{ patient.Id => patient };
         data.providerContacts = new Map<Id, Contact>();
         data.providerNpis = new Map<Id, String>();
         data.patientToPractitioner = new Map<Id, Id>();
+        data.memberPlanMap = new Map<Id, MemberPlan>{ validPlan.Id => validPlan };
         
         Test.startTest();
         System.enqueueJob(new BenefitsVerificationService.BenefitVerificationCalloutQueueable(data));
