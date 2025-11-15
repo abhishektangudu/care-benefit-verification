@@ -109,8 +109,6 @@ The project includes test coverage for:
 ###
 - **Package Installation Link**: Version0.1.0-3
  -https://login.salesforce.com/packaging/installPackage.apexp?p0=04ta5000009yDoPAAU
-  
-#### 3. Salesforce Developer Edition Org For Namespace
 
 ### Trail org sign up page links
 - https://help.salesforce.com/s/articleView?id=ind.hc_trial_org.htm&type=5
