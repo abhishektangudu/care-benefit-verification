@@ -109,35 +109,7 @@ The project includes test coverage for:
 ###
 - **Package Installation Link**: Version0.1.0-3
  -https://login.salesforce.com/packaging/installPackage.apexp?p0=04ta5000009yDoPAAU
-
-### Development Orgs
-
-#### 1. Salesforce Trail Health Cloud Learning org For Development
-
-| Key              | Value                                                        |
-|------------------|--------------------------------------------------------------|
-| Alias            | healthCloudOrg                                               |
-| Api Version      | 64.0                                                         |
-| Client Id        | PlatformCLI                                                  |
-| Connected Status | Connected                                                    |
-| Id               | 00Dbn00000qJDJlEAO                                           |
-| Instance Url     | https://infinitus.my.salesforce.com                          |
-| Sfdx Auth Url    | force://PlatformCLI::5Aep861UEZSe.tVXq9iuPW55ENKbR1i7xQA4x7A |
-| Username         | abhishektangudu-5aun@force.com                               |
-
-#### 2. Salesforce Trail Health Cloud Base Org For Devhub
-
-| Key              | Value                                                        |
-|------------------|--------------------------------------------------------------|
-| Alias            | bene-veri-devhub                                             |
-| Api Version      | 64.0                                                         |
-| Client Id        | PlatformCLI                                                  |
-| Connected Status | Connected                                                    |
-| Id               | 00Da500001Mq8YlEAJ                                           |
-| Instance Url     | https://beneveri.my.salesforce.com                           |
-| Sfdx Auth Url    | force://PlatformCLI::5Aep8612FOkUjfmSUz0UxnPG2DfVY7ZVE15D.ho |
-| Username         | abhishektangudu-d5br@force.com                               |
-
+  
 #### 3. Salesforce Developer Edition Org For Namespace
 
 ### Trail org sign up page links
